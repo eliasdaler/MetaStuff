@@ -19,12 +19,24 @@ decltype(auto) apply_impl(F&& f, Tuple&& t, std::index_sequence<I...>)
 }
 
 template <typename F, typename Tuple>
+decltype(auto) apply_impl(F&& f, Tuple&& t)
+{
+    return std::forward<F>(f)(std::get<0>(std::forward<Tuple>(t)));
+}
+
+template <typename F, typename Tuple, typename = std::enable_if_t<(std::tuple_size<std::decay_t<Tuple>>::value > 1)>>
 decltype(auto) apply(F&& f, Tuple&& t)
 {
     using Indices =
         std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>;
 
     return apply_impl(std::forward<F>(f), std::forward<Tuple>(t), Indices{});
+}
+
+template <typename F, typename Tuple, typename = std::enable_if_t<!(std::tuple_size<std::decay_t<Tuple>>::value > 1)>, typename = void>
+decltype(auto) apply(F&& f, Tuple&& t)
+{
+    return apply_impl(std::forward<F>(f), std::forward<Tuple>(t));
 }
 
 template <typename F, typename TupleT>
