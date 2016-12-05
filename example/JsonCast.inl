@@ -29,9 +29,17 @@ Value serialize_impl(const Class& obj)
     {
         auto& valueName = value[member.getName()];
         if (member.canGetConstRef()) {
+          if ( member.is_enum() ) {
+            valueName = serialize(member.as_enum().toString(member.get(obj)));
+          } else {
             valueName = serialize(member.get(obj));
+          }
         } else if (member.hasGetter()) {
+          if ( member.is_enum() ) {
+            valueName = serialize(member.as_enum().toString(member.getCopy(obj)));
+          } else {
             valueName = serialize(member.getCopy(obj)); // passing copy as const ref, it's okay
+          }
         } else {
             throw std::runtime_error("Error: can't deserialize member because it's write only");
         }

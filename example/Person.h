@@ -8,6 +8,12 @@
 
 #include <iostream>
 
+enum class PersonType {
+  UNKNOWN = 0,
+  EMPLOYEE = 3,
+  ATTENDEE = 5
+};
+
 struct Person {
     // add this if you want to register private members:
     // template <>
@@ -44,6 +50,7 @@ struct Person {
     std::string name;
     float salary;
     std::unordered_map<std::string, std::vector<MovieInfo>> favouriteMovies;
+    PersonType type = PersonType::UNKNOWN;
 };
 
 #include <Meta.h>
@@ -58,7 +65,11 @@ inline auto registerMembers<Person>()
         member("age", &Person::getAge, &Person::setAge), // access through getter/setter only!
         member("name", &Person::getName, &Person::setName), // same, but ref getter/setter
         member("salary", &Person::salary),
-        member("favouriteMovies", &Person::favouriteMovies)
+        member("favouriteMovies", &Person::favouriteMovies),
+        enummember("type", &Person::type)  // Enum class works too!
+        .value("Employee", PersonType::EMPLOYEE)
+        .value("Unknown", PersonType::UNKNOWN)
+        .value("Attendee", PersonType::ATTENDEE)
     );
 }
 

@@ -123,4 +123,30 @@ void setMemberValue(Class& obj, const char* name, V&& value)
     );
 }
 
+// Get value of the enum member named 'name' as string
+template <typename T, typename Class,
+    typename>
+std::string getEnumMemberValueString(Class& obj, const std::string& name) {
+    std::string value;
+    doForMember<Class, T>(name,
+        [&value, &obj](const auto& member)
+        {
+            value = member.toString(member.get(obj));
+        }
+    );
+    return value;
+}
+
+// Sets value of the enum member named 'name' using a string
+template <typename T, typename Class,
+    typename>
+void setEnumMemberValueString(Class& obj, const std::string& name, const std::string& value){
+    doForMember<Class, T>(name,
+        [&obj, &value](const auto& member)
+        {
+            member.set(obj, member.fromString(value));
+        }
+    );
+}
+
 } // end of namespace meta

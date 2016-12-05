@@ -16,7 +16,7 @@ Member<Class, T>::Member(const char* name, member_ptr_t<Class, T> ptr) :
 { }
 
 template <typename Class, typename T>
-Member<Class, T>::Member(const char* name, ref_getter_func_ptr_t<Class, T> getterPtr, ref_setter_func_ptr_t<Class, T> setterPtr) : 
+Member<Class, T>::Member(const char* name, ref_getter_func_ptr_t<Class, T> getterPtr, ref_setter_func_ptr_t<Class, T> setterPtr) :
     name(name),
     ptr(nullptr),
     hasMemberPtr(false),
@@ -121,6 +121,27 @@ template <typename Class, typename T>
 Member<Class, T> member(const char* name, val_getter_func_ptr_t<Class, T> getterPtr, val_setter_func_ptr_t<Class, T> setterPtr)
 {
     return Member<Class, T>(name, getterPtr, setterPtr);
+}
+
+template <typename Class, typename T,
+    typename>
+EnumMember<Class, T> enummember(const char* name, T Class::* ptr)
+{
+    return EnumMember<Class, T>(name, ptr);
+}
+
+template <typename Class, typename T,
+    typename>
+EnumMember<Class, T> enummember(const char* name, ref_getter_func_ptr_t<Class, T> getterPtr, ref_setter_func_ptr_t<Class, T> setterPtr)
+{
+    return EnumMember<Class, T>(name, getterPtr, setterPtr);
+}
+
+template <typename Class, typename T,
+    typename>
+EnumMember<Class, T> enummember(const char* name, val_getter_func_ptr_t<Class, T> getterPtr, val_setter_func_ptr_t<Class, T> setterPtr)
+{
+    return EnumMember<Class, T>(name, getterPtr, setterPtr);
 }
 
 } // end of namespace meta

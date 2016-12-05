@@ -22,7 +22,8 @@ int main()
     person.age = 25;
     person.salary = 3.50f;
     person.name = "Alex"; // I'm a person!
-    
+    person.type = PersonType::ATTENDEE; // I'm paying for all these movies!
+
     person.favouriteMovies["Nostalgia Critic"] = { MovieInfo{ "The Room", 8.5f } };
     person.favouriteMovies["John Tron"] = { MovieInfo{ "Goosebumps", 10.0f },
                                             MovieInfo{ "Talking Cat", 9.0f } };
@@ -70,6 +71,18 @@ int main()
     meta::setMemberValue<std::string>(person, "name", "Ron Burgundy");
     name = meta::getMemberValue<std::string>(person, "name");
     std::cout << "Changed person's name to " << name << '\n';
+
+
+    // getting setting enum member values
+    auto type = meta::getEnumMemberValueString<PersonType>(person, "type");
+    std::cout << "Got person's type: " << type << '\n';
+
+    // Set person's type to some real value
+    meta::setEnumMemberValueString<PersonType>(person, "type", "Employee");
+    type = meta::getEnumMemberValueString<PersonType>(person, "type");
+    std::cout << "Changed person's type: " << type << '\n';
+
+
 
     printSeparator();
 

@@ -120,6 +120,17 @@ template <typename T, typename Class, typename V,
     typename = std::enable_if_t<std::is_constructible<T, V>::value>>
 void setMemberValue(Class& obj, const char* name, V&& value);
 
+// Get value of the enum member named 'name' as string
+template <typename T, typename Class,
+    typename = std::enable_if_t<std::is_enum<T>::value>>
+std::string getEnumMemberValueString(Class& obj, const std::string& name);
+
+// Sets value of the enum member named 'name' using a string
+template <typename T, typename Class,
+    typename = std::enable_if_t<std::is_enum<T>::value>>
+void setEnumMemberValueString(Class& obj, const std::string& name, const std::string& value);
+
+
 }
 
 #include "Meta.inl"
