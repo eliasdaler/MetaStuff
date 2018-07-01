@@ -56,6 +56,9 @@ namespace meta
 template <typename... Args>
 auto members(Args&&... args);
 
+template <typename Tuple, typename... Args>
+auto members_cat(Tuple&& tuple, Args&&... args);
+    
 // function used for registration of classes by user
 template <typename Class>
 inline auto registerMembers();

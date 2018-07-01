@@ -17,6 +17,13 @@ auto members(Args&&... args)
     return std::make_tuple(std::forward<Args>(args)...);
 }
 
+template <typename Tuple, typename... Args>
+auto members_cat(Tuple&& tuple, Args&&... args)
+{
+    auto newMembers = members(std::forward<Args>(args)...);
+    return std::tuple_cat(tuple, newMembers);
+}
+    
 template <typename Class>
 inline auto registerMembers()
 {
