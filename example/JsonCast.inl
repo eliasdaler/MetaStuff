@@ -131,7 +131,7 @@ template <typename K, typename V>
 void deserialize(std::unordered_map<K, V>& obj, const json& object)
 {
     for (auto it = object.begin(); it != object.end(); ++it) {
-        obj.emplace(fromString<K>(it.key()), it.value());
+        obj.emplace(fromString<K>(it.key()), it.value().get<V>());
     }
 }
 
